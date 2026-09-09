@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پنل مدیریت | MIFA</title>
+  <meta name="description" content="پنل مدیریت پیشرفته MIFA">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#050505;--bg2:#0a0a0a;--card:#151515;--elev:#1a1a1a;--red:#E50914;--red-h:#FF1E2D;--red-g:rgba(229,9,20,.3);--t1:#fff;--t2:#a0a0a0;--t3:#666;--brd:rgba(255,255,255,.08);--brd-h:rgba(255,255,255,.15);--r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-2xl:1.5rem;--r-full:9999px;--tr:.25s;--font:'Vazirmatn',sans-serif}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--bg);color:var(--t1);line-height:1.6;min-height:100vh}
+    ::-webkit-scrollbar{width:10px}
+    ::-webkit-scrollbar-track{background:var(--bg2)}
+    ::-webkit-scrollbar-thumb{background:var(--elev);border-radius:var(--r-full)}
+    ::-webkit-scrollbar-thumb:hover{background:var(--red)}
+    a{color:var(--t1);text-decoration:none;transition:color var(--tr)}
+    a:hover{color:var(--red)}
+    img{max-width:100%;display:block}
+    button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+    .hidden{display:none!important}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.5rem;font-size:.875rem;font-weight:600;border-radius:var(--r-md);transition:all var(--tr);cursor:pointer;border:none}
+    .btn-primary{background:var(--red);color:#fff}
+    .btn-primary:hover{background:var(--red-h);box-shadow:0 0 20px var(--red-g);transform:translateY(-2px)}
+    .btn-secondary{background:var(--elev);color:var(--t1);border:1px solid var(--brd)}
+    .btn-secondary:hover{background:var(--card);border-color:var(--brd-h)}
+    .btn-sm{padding:.5rem 1rem;font-size:.75rem}
+    .btn-lg{padding:1rem 2rem;font-size:1rem}
+    .header{position:sticky;top:0;background:rgba(21,21,21,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);z-index:200}
+    .header__container{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;max-width:1400px;margin:0 auto}
+    .header__logo{display:flex;align-items:center;gap:.75rem;font-size:1.5rem;font-weight:900}
+    .header__logo-icon{width:40px;height:40px;background:var(--red);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:1.25rem;box-shadow:0 0 20px var(--red-g)}
+    .header__nav{display:flex;align-items:center;gap:2rem}
+    .header__nav-list{display:flex;list-style:none;gap:1.5rem}
+    .header__nav-link{color:var(--t2);font-weight:600}
+    .header__nav-link:hover{color:var(--t1)}
+    .header__actions{display:flex;align-items:center;gap:1rem}
+    .header__user{display:flex;align-items:center;gap:.75rem;padding:.5rem 1rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-full);cursor:pointer}
+    .header__user-avatar{width:32px;height:32px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.875rem}
+    .admin-layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 80px)}
+    @media(max-width:1024px){.admin-layout{grid-template-columns:1fr}}
+    .admin-sidebar{background:var(--card);border-left:1px solid var(--brd);padding:1.5rem;position:sticky;top:80px;height:calc(100vh - 80px);overflow-y:auto}
+    @media(max-width:1024px){.admin-sidebar{position:static;height:auto;border-left:none;border-bottom:1px solid var(--brd)}}
+    .admin-sidebar__title{font-size:.75rem;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}
+    .admin-nav{display:flex;flex-direction:column;gap:.5rem}
+    @media(max-width:1024px){.admin-nav{flex-direction:row;overflow-x:auto;gap:.75rem}}
+    .admin-nav__item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:transparent;border:none;border-radius:var(--r-md);color:var(--t2);font-weight:600;cursor:pointer;transition:all var(--tr);text-align:right;white-space:nowrap}
+    .admin-nav__item:hover{background:var(--elev);color:var(--t1)}
+    .admin-nav__item.active{background:var(--red);color:#fff;box-shadow:0 0 20px var(--red-g)}
+    .admin-nav__icon{font-size:1.125rem}
+    .admin-main{padding:2rem;background:var(--bg)}
+    @media(max-width:768px){.admin-main{padding:1rem}}
+    .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+    .admin-header__title{font-size:1.875rem;font-weight:900}
+    .admin-header__subtitle{font-size:.875rem;color:var(--t2);margin-top:.25rem}
+    .admin-header__actions{display:flex;gap:.75rem}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem}
+    .stat-card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r-xl);padding:1.5rem;transition:all var(--tr)}
+    .stat-card:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 0 20px var(--red-g)}
+    .stat-card__icon{font-size:2rem;margin-bottom:.75rem}
+    .stat-card__value{font-size:2.25rem;font-weight:900;color:var(--t1);margin-bottom:.5rem}
+    .stat-card__label{font-size:.875rem;color:var(--t2)}
+    .admin-table{width:100%;background:var(--card);border:1px solid var(--brd);border-radius:var(--r-xl);overflow:hidden;margin-bottom:2rem}
+    .admin-table__header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--brd);flex-wrap:wrap;gap:.75rem}
+    .admin-table__title{font-size:1.125rem;font-weight:800}
+    .admin-table__controls{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+    .admin-table__search{padding:.5rem 1rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-md);color:var(--t1);font-size:.875rem}
+    .admin-table__search:focus{outline:none;border-color:var(--red)}
+    .admin-table__body{overflow-x:auto}
+    table{width:100%;border-collapse:collapse}
+    th{background:var(--elev);padding:.75rem 1rem;text-align:right;font-size:.75rem;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--brd)}
+    td{padding:1rem;border-bottom:1px solid var(--brd);font-size:.875rem;color:var(--t1)}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:var(--elev)}
+    .table-poster{width:50px;height:70px;border-radius:var(--r-sm);object-fit:cover}
+    .table-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+    .table-btn{padding:.5rem .75rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-sm);color:var(--t1);font-size:.75rem;cursor:pointer;transition:all var(--tr)}
+    .table-btn:hover{border-color:var(--red);background:var(--red)}
+    .table-btn--danger:hover{background:#dc2626;border-color:#dc2626}
+    .admin-modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;visibility:hidden;transition:all var(--tr)}
+    .admin-modal.active{opacity:1;visibility:visible}
+    .admin-modal__content{background:var(--card);border:1px solid var(--brd);border-radius:var(--r-xl);max-width:700px;width:90%;max-height:90vh;overflow-y:auto;transform:scale(.9);transition:transform var(--tr)}
+    .admin-modal.active .admin-modal__content{transform:scale(1)}
+    .admin-modal__header{padding:1.5rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+    .admin-modal__title{font-size:1.25rem;font-weight:800}
+    .admin-modal__close{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all var(--tr);background:none;border:none;color:var(--t1);cursor:pointer}
+    .admin-modal__close:hover{background:var(--elev)}
+    .admin-modal__body{padding:1.5rem}
+    .admin-modal__footer{padding:1.5rem;border-top:1px solid var(--brd);display:flex;gap:.75rem;justify-content:flex-end}
+    .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    @media(max-width:768px){.form-grid{grid-template-columns:1fr}}
+    .form-group{display:flex;flex-direction:column;gap:.5rem}
+    .form-group.full-width{grid-column:1/-1}
+    .form-label{font-size:.875rem;font-weight:600;color:var(--t2)}
+    .form-label.required::after{content:' *';color:var(--red)}
+    .form-input,.form-select,.form-textarea{width:100%;padding:.75rem 1rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-md);color:var(--t1);font-size:.875rem;font-family:inherit;transition:all var(--tr)}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-g)}
+    .form-textarea{min-height:120px;resize:vertical}
+    .admin-section{display:none}
+    .admin-section.active{display:block;animation:fadeIn .3s}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .status-badge{display:inline-flex;align-items:center;padding:.25rem .75rem;border-radius:var(--r-full);font-size:.75rem;font-weight:600}
+    .status-badge--active{background:#10b98120;color:#10b981;border:1px solid #10b98140}
+    .status-badge--pending{background:#f59e0b20;color:#f59e0b;border:1px solid #f59e0b40}
+    .role-badge{display:inline-flex;align-items:center;padding:.25rem .75rem;border-radius:var(--r-full);font-size:.75rem;font-weight:600}
+    .role-badge--admin{background:var(--red);color:#fff}
+    .role-badge--user{background:var(--elev);color:var(--t2);border:1px solid var(--brd)}
+    .admin-loading{display:flex;align-items:center;justify-content:center;padding:3rem;color:var(--t2)}
+    .admin-empty{text-align:center;padding:3rem;color:var(--t2)}
+    .admin-empty__icon{font-size:4rem;margin-bottom:1rem;opacity:.5}
+    .admin-empty__title{font-size:1.25rem;font-weight:700;margin-bottom:.5rem;color:var(--t1)}
+    .toast{background:var(--card);border:1px solid var(--brd);border-radius:var(--r-lg);padding:1rem 1.5rem;box-shadow:0 20px 25px rgba(0,0,0,.6)}
+    .toast-success{border-color:#10b981}
+    .toast-error{border-color:var(--red)}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__container">
+      <a href="/" class="header__logo">
+        <div class="header__logo-icon">🎬</div>
+        <span>MIFA</span>
+      </a>
+      <nav class="header__nav">
+        <ul class="header__nav-list">
+          <li><a href="/" class="header__nav-link">بازگشت به سایت</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <div class="header__user" id="user-menu">
+          <div class="header__user-avatar">A</div>
+          <span class="header__user-name">ادمین</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="logout-btn">خروج</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__title">منوی مدیریت</div>
+      <nav class="admin-nav">
+        <button class="admin-nav__item active" data-section="dashboard">
+          <span class="admin-nav__icon">📊</span>
+          <span>داشبورد</span>
+        </button>
+        <button class="admin-nav__item" data-section="anime">
+          <span class="admin-nav__icon">🎬</span>
+          <span>مدیریت انیمه‌ها</span>
+        </button>
+        <button class="admin-nav__item" data-section="users">
+          <span class="admin-nav__icon">👥</span>
+          <span>کاربران</span>
+        </button>
+        <button class="admin-nav__item" data-section="comments">
+          <span class="admin-nav__icon">💬</span>
+          <span>نظرات</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <!-- Dashboard -->
+      <section class="admin-section active" id="section-dashboard">
+        <div class="admin-header">
+          <div>
+            <h1 class="admin-header__title">📊 داشبورد</h1>
+            <p class="admin-header__subtitle">مدیریت و کنترل کامل سایت MIFA</p>
+          </div>
+          <div class="admin-header__actions">
+            <button class="btn btn-secondary" onclick="loadStats()">↻ بروزرسانی</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card__icon">🎬</div>
+            <div class="stat-card__value" id="stat-anime">—</div>
+            <div class="stat-card__label">تعداد انیمه‌ها</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon">👥</div>
+            <div class="stat-card__value" id="stat-users">—</div>
+            <div class="stat-card__label">تعداد کاربران</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon">💬</div>
+            <div class="stat-card__value" id="stat-comments">—</div>
+            <div class="stat-card__label">نظرات در انتظار تأیید</div>
+          </div>
+        </div>
+
+        <div class="admin-table">
+          <div class="admin-table__header">
+            <h2 class="admin-table__title">⚡ عملیات سریع</h2>
+          </div>
+          <div style="padding:1.5rem;display:flex;gap:1rem;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="showAnimeModal()">+ افزودن انیمه</button>
+            <button class="btn btn-secondary" onclick="switchSection('users')">👥 مدیریت کاربران</button>
+            <button class="btn btn-secondary" onclick="switchSection('comments')">💬 بررسی نظرات</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Anime Management -->
+      <section class="admin-section" id="section-anime">
+        <div class="admin-header">
+          <div>
+            <h1 class="admin-header__title">🎬 مدیریت انیمه‌ها</h1>
+            <p class="admin-header__subtitle">افزودن، ویرایش و حذف انیمه‌ها</p>
+          </div>
+          <div class="admin-header__actions">
+            <button class="btn btn-primary" onclick="showAnimeModal()">+ افزودن انیمه</button>
+          </div>
+        </div>
+
+        <div class="admin-table">
+          <div class="admin-table__header">
+            <h2 class="admin-table__title">لیست انیمه‌ها</h2>
+            <div class="admin-table__controls">
+              <input type="text" class="admin-table__search" id="anime-search" placeholder="🔍 جستجو...">
+              <select class="admin-table__search" id="anime-status-filter">
+                <option value="">همه وضعیت‌ها</option>
+                <option value="در حال پخش">در حال پخش</option>
+                <option value="پایان یافته">پایان یافته</option>
+                <option value="به‌زودی">به‌زودی</option>
+              </select>
+              <select class="admin-table__search" id="anime-sort">
+                <option value="newest">جدیدترین</option>
+                <option value="score">بالاترین امتیاز</option>
+                <option value="alpha">الفبایی</option>
+              </select>
+            </div>
+          </div>
+          <div class="admin-table__body">
+            <table>
+              <thead>
+                <tr>
+                  <th>پوستر</th>
+                  <th>عنوان</th>
+                  <th>سال</th>
+                  <th>استودیو</th>
+                  <th>وضعیت</th>
+                  <th>امتیاز</th>
+                  <th>عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="anime-table-body">
+                <tr><td colspan="7" class="admin-loading">در حال دریافت انیمه‌ها...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Users -->
+      <section class="admin-section" id="section-users">
+        <div class="admin-header">
+          <div>
+            <h1 class="admin-header__title">👥 مدیریت کاربران</h1>
+            <p class="admin-header__subtitle">تغییر نقش و مدیریت کاربران</p>
+          </div>
+          <div class="admin-header__actions">
+            <button class="btn btn-secondary" onclick="loadUsers()">↻ بروزرسانی</button>
+          </div>
+        </div>
+
+        <div class="admin-table">
+          <div class="admin-table__header">
+            <h2 class="admin-table__title">لیست کاربران</h2>
+          </div>
+          <div class="admin-table__body">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>نام کاربری</th>
+                  <th>نقش</th>
+                  <th>تاریخ عضویت</th>
+                  <th>عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body">
+                <tr><td colspan="5" class="admin-loading">در حال دریافت کاربران...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comments -->
+      <section class="admin-section" id="section-comments">
+        <div class="admin-header">
+          <div>
+            <h1 class="admin-header__title">💬 مدیریت نظرات</h1>
+            <p class="admin-header__subtitle">نظرات در انتظار تأیید</p>
+          </div>
+          <div class="admin-header__actions">
+            <button class="btn btn-secondary" onclick="loadPendingComments()">↻ بروزرسانی</button>
+          </div>
+        </div>
+
+        <div class="admin-table">
+          <div class="admin-table__header">
+            <h2 class="admin-table__title">نظرات در انتظار</h2>
+          </div>
+          <div class="admin-table__body">
+            <table>
+              <thead>
+                <tr>
+                  <th>کاربر</th>
+                  <th>انیمه</th>
+                  <th>نظر</th>
+                  <th>تاریخ</th>
+                  <th>عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="comments-table-body">
+                <tr><td colspan="5" class="admin-loading">در حال دریافت نظرات...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Anime Modal -->
+  <div class="admin-modal" id="anime-modal">
+    <div class="admin-modal__content">
+      <div class="admin-modal__header">
+        <h3 class="admin-modal__title" id="anime-modal-title">افزودن انیمه جدید</h3>
+        <button class="admin-modal__close" onclick="hideAnimeModal()">✕</button>
+      </div>
+      <div class="admin-modal__body">
+        <form id="anime-form" class="form-grid">
+          <input type="hidden" id="anime-id">
+          
+          <div class="form-group full-width">
+            <label class="form-label required">عنوان فارسی</label>
+            <input type="text" id="anime-title" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">عنوان ژاپنی</label>
+            <input type="text" id="anime-jp-title" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">سال انتشار</label>
+            <input type="text" id="anime-year" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">استودیو</label>
+            <input type="text" id="anime-studio" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">کشور</label>
+            <input type="text" id="anime-country" class="form-input" value="ژاپن">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">ژانرها (با کاما جدا کنید)</label>
+            <input type="text" id="anime-genres" class="form-input" placeholder="اکشن, فانتزی, درام">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">وضعیت</label>
+            <select id="anime-status" class="form-select">
+              <option value="در حال پخش">در حال پخش</option>
+              <option value="پایان یافته">پایان یافته</option>
+              <option value="به‌زودی">به‌زودی</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">رده سنی</label>
+            <select id="anime-age-rating" class="form-select">
+              <option value="">انتخاب کنید</option>
+              <option value="G">G</option>
+              <option value="PG">PG</option>
+              <option value="PG-13">PG-13</option>
+              <option value="R">R</option>
+              <option value="+18">+18</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">امتیاز</label>
+            <input type="number" id="anime-score" class="form-input" min="0" max="10" step="0.1">
+          </div>
+          
+          <div class="form-group full-width">
+            <label class="form-label">لینک پوستر</label>
+            <input type="url" id="anime-poster" class="form-input">
+          </div>
+          
+          <div class="form-group full-width">
+            <label class="form-label">خلاصه داستان</label>
+            <textarea id="anime-synopsis" class="form-textarea"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="admin-modal__footer">
+        <button class="btn btn-secondary" onclick="hideAnimeModal()">انصراف</button>
+        <button class="btn btn-primary" onclick="saveAnime()">ذخیره انیمه</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/shared.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!api.isLoggedIn() || !api.isAdmin()) {
+        Toast.show('دسترسی غیرمجاز', 'error');
+        setTimeout(() => window.location.href = '/', 2000);
+        return;
+      }
+      
+      const user = api.getUser();
+      document.querySelector('.header__user-avatar').textContent = user.username[0].toUpperCase();
+      document.querySelector('.header__user-name').textContent = user.username;
+      
+      loadStats();
+      initNavigation();
+      
+      document.getElementById('logout-btn').addEventListener('click', async () => {
+        await api.logout();
+        window.location.href = '/';
+      });
+    });
+
+    function initNavigation() {
+      document.querySelectorAll('.admin-nav__item').forEach(item => {
+        item.addEventListener('click', () => switchSection(item.dataset.section));
+      });
+    }
+
+    function switchSection(section) {
+      document.querySelectorAll('.admin-nav__item').forEach(i => i.classList.remove('active'));
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+      
+      document.querySelector(`[data-section="${section}"]`).classList.add('active');
+      document.getElementById(`section-${section}`).classList.add('active');
+      
+      if (section === 'anime') loadAnimeList();
+      if (section === 'users') loadUsers();
+      if (section === 'comments') loadPendingComments();
+    }
+
+    async function loadStats() {
+      try {
+        const result = await api.getAdminStats();
+        document.getElementById('stat-anime').textContent = result.stats.animeCount.toLocaleString('fa-IR');
+        document.getElementById('stat-users').textContent = result.stats.usersCount.toLocaleString('fa-IR');
+        document.getElementById('stat-comments').textContent = result.stats.pendingComments.toLocaleString('fa-IR');
+      } catch (error) {
+        console.error(error);
+        Toast.show('خطا در دریافت آمار', 'error');
+      }
+    }
+
+    async function loadAnimeList() {
+      const tbody = document.getElementById('anime-table-body');
+      tbody.innerHTML = '<tr><td colspan="7" class="admin-loading">در حال دریافت...</td></tr>';
+      
+      try {
+        const q = document.getElementById('anime-search').value;
+        const status = document.getElementById('anime-status-filter').value;
+        const sort = document.getElementById('anime-sort').value;
+        
+        const result = await api.getAnime({ q, status, sort });
+        
+        if (!result.data || result.data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="admin-empty"><div class="admin-empty__icon">🎬</div><div class="admin-empty__title">انیمه‌ای پیدا نشد</div></td></tr>`;
+          return;
+        }
+        
+        tbody.innerHTML = result.data.map(anime => `
+          <tr>
+            <td><img src="${anime.poster}" alt="${anime.title}" class="table-poster"></td>
+            <td><strong>${anime.title}</strong></td>
+            <td>${anime.year || '—'}</td>
+            <td>${anime.studio || '—'}</td>
+            <td><span class="status-badge status-badge--active">${anime.status}</span></td>
+            <td>★ ${Number(anime.score || 0).toFixed(1)}</td>
+            <td>
+              <div class="table-actions">
+                <button class="table-btn" onclick="editAnime(${anime.id})">✏️ ویرایش</button>
+                <button class="table-btn table-btn--danger" onclick="deleteAnime(${anime.id})">🗑️ حذف</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        console.error(error);
+        tbody.innerHTML = `<tr><td colspan="7" class="admin-empty">خطا در بارگذاری</td></tr>`;
+      }
+    }
+
+    function showAnimeModal(anime = null) {
+      document.getElementById('anime-modal').classList.add('active');
+      document.getElementById('anime-modal-title').textContent = anime ? 'ویرایش انیمه' : 'افزودن انیمه جدید';
+      
+      if (anime) {
+        document.getElementById('anime-id').value = anime.id;
+        document.getElementById('anime-title').value = anime.title || '';
+        document.getElementById('anime-jp-title').value = anime.jp_title || '';
+        document.getElementById('anime-year').value = anime.year || '';
+        document.getElementById('anime-studio').value = anime.studio || '';
+        document.getElementById('anime-country').value = anime.country || 'ژاپن';
+        document.getElementById('anime-genres').value = anime.genres || '';
+        document.getElementById('anime-status').value = anime.status || 'در حال پخش';
+        document.getElementById('anime-age-rating').value = anime.age_rating || '';
+        document.getElementById('anime-score').value = anime.score || '';
+        document.getElementById('anime-poster').value = anime.poster || '';
+        document.getElementById('anime-synopsis').value = anime.synopsis || '';
+      } else {
+        document.getElementById('anime-form').reset();
+        document.getElementById('anime-id').value = '';
+      }
+    }
+
+    function hideAnimeModal() {
+      document.getElementById('anime-modal').classList.remove('active');
+    }
+
+    async function saveAnime() {
+      const id = document.getElementById('anime-id').value;
+      const data = {
+        title: document.getElementById('anime-title').value.trim(),
+        jp_title: document.getElementById('anime-jp-title').value.trim(),
+        year: document.getElementById('anime-year').value.trim(),
+        studio: document.getElementById('anime-studio').value.trim(),
+        country: document.getElementById('anime-country').value.trim(),
+        genres: document.getElementById('anime-genres').value.trim(),
+        status: document.getElementById('anime-status').value,
+        age_rating: document.getElementById('anime-age-rating').value,
+        score: Number(document.getElementById('anime-score').value) || 0,
+        poster: document.getElementById('anime-poster').value.trim(),
+        synopsis: document.getElementById('anime-synopsis').value.trim()
+      };
+      
+      if (!data.title) {
+        Toast.show('عنوان الزامی است', 'error');
+        return;
+      }
+      
+      try {
+        if (id) {
+          await api.updateAnime(id, data);
+          Toast.show('انیمه با موفقیت ویرایش شد', 'success');
+        } else {
+          await api.createAnime(data);
+          Toast.show('انیمه با موفقیت افزوده شد', 'success');
+        }
+        
+        hideAnimeModal();
+        loadAnimeList();
+        loadStats();
+      } catch (error) {
+        Toast.show(error.message, 'error');
+      }
+    }
+
+    async function editAnime(id) {
+      try {
+        const result = await api.getAnimeDetail(id);
+        showAnimeModal(result.anime);
+      } catch (error) {
+        Toast.show('خطا در دریافت اطلاعات', 'error');
+      }
+    }
+
+    async function deleteAnime(id) {
+      if (!confirm('آیا از حذف این انیمه مطمئن هستید؟')) return;
+      
+      try {
+        await api.deleteAnime(id);
+        Toast.show('انیمه حذف شد', 'success');
+        loadAnimeList();
+        loadStats();
+      } catch (error) {
+        Toast.show(error.message, 'error');
+      }
+    }
+
+    async function loadUsers() {
+      const tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = '<tr><td colspan="5" class="admin-loading">در حال دریافت...</td></tr>';
+      
+      try {
+        const result = await api.getAdminUsers();
+        
+        if (!result.data || result.data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" class="admin-empty">کاربری پیدا نشد</td></tr>`;
+          return;
+        }
+        
+        tbody.innerHTML = result.data.map(user => `
+          <tr>
+            <td>${user.id}</td>
+            <td><strong>${user.username}</strong></td>
+            <td><span class="role-badge role-badge--${user.role}">${user.role === 'admin' ? 'ادمین' : 'کاربر'}</span></td>
+            <td>${new Date(user.created_at).toLocaleDateString('fa-IR')}</td>
+            <td>
+              <div class="table-actions">
+                ${user.role !== 'admin' ? `<button class="table-btn" onclick="makeAdmin(${user.id})">👑 ادمین کردن</button>` : ''}
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        console.error(error);
+        tbody.innerHTML = `<tr><td colspan="5" class="admin-empty">خطا در بارگذاری</td></tr>`;
+      }
+    }
+
+    async function makeAdmin(userId) {
+      if (!confirm('آیا از ادمین کردن این کاربر مطمئن هستید؟')) return;
+      
+      try {
+        await api.updateUserRole(userId, 'admin');
+        Toast.show('کاربر ادمین شد', 'success');
+        loadUsers();
+      } catch (error) {
+        Toast.show(error.message, 'error');
+      }
+    }
+
+    async function loadPendingComments() {
+      const tbody = document.getElementById('comments-table-body');
+      tbody.innerHTML = '<tr><td colspan="5" class="admin-loading">در حال دریافت...</td></tr>';
+      
+      try {
+        const result = await api.getPendingComments();
+        
+        if (!result.data || result.data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" class="admin-empty"><div class="admin-empty__icon">💬</div><div class="admin-empty__title">نظر در انتظاری وجود ندارد</div></td></tr>`;
+          return;
+        }
+        
+        tbody.innerHTML = result.data.map(comment => `
+          <tr>
+            <td><strong>${comment.username}</strong></td>
+            <td>${comment.anime_title}</td>
+            <td style="max-width:300px">${comment.text}</td>
+            <td>${new Date(comment.created_at).toLocaleDateString('fa-IR')}</td>
+            <td>
+              <div class="table-actions">
+                <button class="table-btn" onclick="approveComment(${comment.id})">✓ تأیید</button>
+                <button class="table-btn table-btn--danger" onclick="rejectComment(${comment.id})">✕ رد</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        console.error(error);
+        tbody.innerHTML = `<tr><td colspan="5" class="admin-empty">خطا در بارگذاری</td></tr>`;
+      }
+    }
+
+    async function approveComment(id) {
+      try {
+        await api.updateCommentStatus(id, 'approved');
+        Toast.show('نظر تأیید شد', 'success');
+        loadPendingComments();
+        loadStats();
+      } catch (error) {
+        Toast.show(error.message, 'error');
+      }
+    }
+
+    async function rejectComment(id) {
+      try {
+        await api.updateCommentStatus(id, 'rejected');
+        Toast.show('نظر رد شد', 'success');
+        loadPendingComments();
+        loadStats();
+      } catch (error) {
+        Toast.show(error.message, 'error');
+      }
+    }
+
+    document.getElementById('anime-search').addEventListener('input', debounce(loadAnimeList, 500));
+    document.getElementById('anime-status-filter').addEventListener('change', loadAnimeList);
+    document.getElementById('anime-sort').addEventListener('change', loadAnimeList);
+
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), wait);
+      };
+    }
+  </script>
+</body>
+</html>
