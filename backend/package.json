@@ -1,5 +1,5 @@
 {
-  "name": "mfa-anime",
+  "name": "mfa_anime",
   "version": "2.0.0",
   "description": "MFA Persian Anime Website",
   "main": "server.js",
