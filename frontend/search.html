@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>جستجوی انیمه | MIFA</title>
+  <meta name="description" content="جستجو و فیلتر انیمه‌ها بر اساس ژانر، سال، امتیاز و وضعیت">
+  <meta property="og:title" content="جستجوی انیمه | MIFA">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SearchResultsPage","name":"جستجوی انیمه"}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#050505;--bg2:#0a0a0a;--card:#151515;--elev:#1a1a1a;--red:#E50914;--red-h:#FF1E2D;--red-g:rgba(229,9,20,.3);--t1:#fff;--t2:#a0a0a0;--t3:#666;--brd:rgba(255,255,255,.08);--brd-h:rgba(255,255,255,.15);--r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-2xl:1.5rem;--r-full:9999px;--tr:.25s;--font:'Vazirmatn',sans-serif}
+    html{font-size:16px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--bg);color:var(--t1);line-height:1.6;min-height:100vh}
+    ::-webkit-scrollbar{width:10px}
+    ::-webkit-scrollbar-track{background:var(--bg2)}
+    ::-webkit-scrollbar-thumb{background:var(--elev);border-radius:var(--r-full)}
+    ::-webkit-scrollbar-thumb:hover{background:var(--red)}
+    a{color:var(--t1);text-decoration:none;transition:color var(--tr)}
+    a:hover{color:var(--red)}
+    img{max-width:100%;display:block}
+    button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+    .container{max-width:1400px;margin:0 auto;padding:0 1.5rem}
+    @media(max-width:768px){.container{padding:0 1rem}}
+    .hidden{display:none!important}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.5rem;font-size:.875rem;font-weight:600;border-radius:var(--r-md);transition:all var(--tr);cursor:pointer;border:none}
+    .btn-primary{background:var(--red);color:#fff}
+    .btn-primary:hover{background:var(--red-h);box-shadow:0 0 20px var(--red-g);transform:translateY(-2px)}
+    .btn-secondary{background:var(--elev);color:var(--t1);border:1px solid var(--brd)}
+    .btn-secondary:hover{background:var(--card);border-color:var(--brd-h)}
+    .btn-lg{padding:1rem 2rem;font-size:1rem}
+    .header{position:sticky;top:0;background:rgba(21,21,21,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--brd);z-index:200}
+    .header__container{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;max-width:1400px;margin:0 auto}
+    .header__logo{display:flex;align-items:center;gap:.75rem;font-size:1.5rem;font-weight:900}
+    .header__logo-icon{width:40px;height:40px;background:var(--red);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:1.25rem;box-shadow:0 0 20px var(--red-g)}
+    .header__nav{display:flex;align-items:center;gap:2rem}
+    .header__nav-list{display:flex;list-style:none;gap:1.5rem}
+    .header__nav-link{color:var(--t2);font-weight:600}
+    .header__nav-link:hover,.header__nav-link.active{color:var(--t1)}
+    .header__actions{display:flex;align-items:center;gap:1rem}
+    .header__search{position:relative}
+    .header__search-input{width:300px;padding:.5rem 1rem;padding-right:2.5rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-full);color:var(--t1);font-size:.875rem}
+    .header__search-input:focus{outline:none;border-color:var(--red);width:400px}
+    .header__user{display:flex;align-items:center;gap:.75rem;padding:.5rem 1rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-full);cursor:pointer}
+    .header__user-avatar{width:32px;height:32px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.875rem}
+    @media(max-width:1024px){.header__nav{display:none}.header__search-input{width:200px}}
+    @media(max-width:768px){.header__search{display:none}.header__user-name{display:none}}
+    .main{min-height:calc(100vh - 200px);padding:2rem 0}
+    .search-page{display:grid;grid-template-columns:280px 1fr;gap:2rem;margin-top:2rem}
+    @media(max-width:1024px){.search-page{grid-template-columns:1fr}}
+    .filters-sidebar{background:var(--card);border:1px solid var(--brd);border-radius:var(--r-xl);padding:1.5rem;height:fit-content;position:sticky;top:100px}
+    @media(max-width:1024px){.filters-sidebar{position:static}}
+    .filters-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--brd)}
+    .filters-title{font-size:1.125rem;font-weight:800;display:flex;align-items:center;gap:.5rem}
+    .filters-clear{font-size:.75rem;color:var(--red);cursor:pointer;background:none;border:none;font-weight:600}
+    .filter-group{margin-bottom:1.5rem}
+    .filter-label{display:block;font-size:.875rem;font-weight:700;margin-bottom:.75rem}
+    .filter-select,.input{width:100%;padding:.75rem 1rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-md);color:var(--t1);font-size:.875rem;cursor:pointer}
+    .filter-select:focus,.input:focus{outline:none;border-color:var(--red)}
+    .genre-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+    .genre-checkbox{display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-md);cursor:pointer;transition:all var(--tr);font-size:.75rem}
+    .genre-checkbox:hover{border-color:var(--red)}
+    .genre-checkbox input{accent-color:var(--red);cursor:pointer}
+    .genre-checkbox.active{background:var(--red);border-color:var(--red);color:#fff}
+    .score-slider{display:flex;align-items:center;gap:.75rem}
+    .score-slider input[type="range"]{flex:1;accent-color:var(--red);cursor:pointer}
+    .score-value{min-width:40px;text-align:center;font-weight:700;color:var(--red)}
+    .results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+    .results-title{font-size:1.5rem;font-weight:800}
+    .results-count{font-size:.875rem;color:var(--t2)}
+    .results-controls{display:flex;align-items:center;gap:.75rem}
+    .sort-select{padding:.5rem 1rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-md);color:var(--t1);font-size:.875rem;cursor:pointer}
+    .results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1.5rem}
+    .anime-card{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--brd);border-radius:var(--r-lg);overflow:hidden;transition:all var(--tr);cursor:pointer}
+    .anime-card:hover{border-color:var(--red);transform:translateY(-8px);box-shadow:0 0 20px var(--red-g)}
+    .anime-card__poster{position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--elev)}
+    .anime-card__poster img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+    .anime-card:hover .anime-card__poster img{transform:scale(1.1)}
+    .anime-card__score{position:absolute;top:.75rem;right:.75rem;background:var(--red);color:#fff;padding:.25rem .75rem;border-radius:var(--r-full);font-size:.75rem;font-weight:700}
+    .anime-card__status{position:absolute;top:.75rem;left:.75rem;background:rgba(21,21,21,.8);backdrop-filter:blur(10px);color:#fff;padding:.25rem .75rem;border-radius:var(--r-full);font-size:.75rem;font-weight:600;border:1px solid var(--brd)}
+    .anime-card__info{padding:1rem;flex:1;display:flex;flex-direction:column;gap:.5rem}
+    .anime-card__title{font-size:1rem;font-weight:700;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .anime-card__meta{display:flex;gap:.75rem;font-size:.75rem;color:var(--t2)}
+    .anime-card__genres{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto}
+    .anime-card__genre{background:var(--elev);color:var(--t2);padding:.25rem .5rem;border-radius:var(--r-sm);font-size:.75rem}
+    .pagination{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:3rem}
+    .pagination-btn{min-width:40px;height:40px;padding:0 .75rem;background:var(--card);border:1px solid var(--brd);border-radius:var(--r-md);color:var(--t1);font-weight:600;cursor:pointer}
+    .pagination-btn:hover:not(:disabled){border-color:var(--red);color:var(--red)}
+    .pagination-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+    .pagination-btn:disabled{opacity:.3;cursor:not-allowed}
+    .active-filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+    .active-filter-tag{display:inline-flex;align-items:center;gap:.5rem;padding:.25rem .75rem;background:var(--red);color:#fff;border-radius:var(--r-full);font-size:.75rem;font-weight:600}
+    .active-filter-tag button{background:none;border:none;color:#fff;cursor:pointer;font-size:.875rem;padding:0}
+    .empty-state{text-align:center;padding:3rem 1.5rem;color:var(--t2);grid-column:1/-1}
+    .empty-state__icon{font-size:4rem;margin-bottom:1rem;opacity:.5}
+    .empty-state__title{font-size:1.25rem;font-weight:700;margin-bottom:.5rem;color:var(--t1)}
+    .footer{background:var(--bg2);border-top:1px solid var(--brd);margin-top:5rem;padding:3rem 0 1.5rem}
+    .footer__grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+    @media(max-width:768px){.footer__grid{grid-template-columns:1fr;gap:2rem}}
+    .footer__logo{font-size:1.5rem;font-weight:900;margin-bottom:1rem}
+    .footer__description{color:var(--t2);font-size:.875rem;line-height:1.8}
+    .footer__section-title{font-size:1rem;font-weight:700;margin-bottom:1rem}
+    .footer__links{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+    .footer__link{color:var(--t2);font-size:.875rem}
+    .footer__link:hover{color:var(--red)}
+    .footer__bottom{padding-top:1.5rem;border-top:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer__copyright{color:var(--t2);font-size:.875rem}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;z-index:300;opacity:0;visibility:hidden;transition:all var(--tr)}
+    .modal.active{opacity:1;visibility:visible}
+    .modal__content{background:var(--card);border:1px solid var(--brd);border-radius:var(--r-xl);max-width:420px;width:90%;max-height:90vh;overflow-y:auto;transform:scale(.9);transition:transform var(--tr)}
+    .modal.active .modal__content{transform:scale(1)}
+    .modal__header{padding:1.5rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+    .modal__title{font-size:1.25rem;font-weight:700}
+    .modal__close{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+    .modal__close:hover{background:var(--elev)}
+    .modal__body{padding:1.5rem}
+    .auth-tabs{display:flex;border-bottom:1px solid var(--brd)}
+    .auth-tab{flex:1;padding:1rem;text-align:center;font-weight:600;color:var(--t2);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer}
+    .auth-tab.active{color:var(--red);border-bottom-color:var(--red)}
+    .auth-form{display:flex;flex-direction:column;gap:1rem}
+    .auth-form .form-group{display:flex;flex-direction:column;gap:.5rem}
+    .auth-form label{font-size:.875rem;font-weight:600;color:var(--t2)}
+    .input{width:100%;padding:.75rem 1rem;background:var(--elev);border:1px solid var(--brd);border-radius:var(--r-md);color:var(--t1);font-size:.875rem}
+    .input:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-g)}
+    .auth-error{font-size:.875rem;color:var(--red);min-height:20px}
+    .toast{background:var(--card);border:1px solid var(--brd);border-radius:var(--r-lg);padding:1rem 1.5rem;box-shadow:0 20px 25px rgba(0,0,0,.6)}
+    .toast-success{border-color:#10b981}
+    .toast-error{border-color:var(--red)}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__container">
+      <a href="/" class="header__logo">
+        <div class="header__logo-icon">🎬</div>
+        <span>MIFA</span>
+      </a>
+      <nav class="header__nav">
+        <ul class="header__nav-list">
+          <li><a href="/" class="header__nav-link">خانه</a></li>
+          <li><a href="/search.html?status=در حال پخش" class="header__nav-link">در حال پخش</a></li>
+          <li><a href="/search.html" class="header__nav-link active">جستجو</a></li>
+          <li><a href="/search.html?sort=score" class="header__nav-link">محبوب‌ترین</a></li>
+          <li><a href="/search.html?sort=newest" class="header__nav-link">جدیدترین</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <div class="header__search">
+          <input type="text" class="header__search-input" placeholder="جستجوی انیمه..." id="header-search">
+        </div>
+        <button class="btn btn-primary" id="auth-btn">ورود / ثبت‌نام</button>
+        <div class="header__user hidden" id="user-menu">
+          <div class="header__user-avatar">U</div>
+          <span class="header__user-name">کاربر</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div style="margin-bottom:2rem">
+        <h1 style="font-size:2.25rem;font-weight:900;margin-bottom:.5rem">🔍 جستجو و کشف انیمه</h1>
+        <p style="color:var(--t2)">بین انیمه‌های موجود جستجو کن و بر اساس ژانر، سال، فصل، امتیاز و وضعیت، نتیجه مورد نظرت را سریع پیدا کن.</p>
+      </div>
+
+      <div class="search-page">
+        <aside class="filters-sidebar">
+          <div class="filters-header">
+            <div class="filters-title">🎛️ فیلترها</div>
+            <button class="filters-clear" id="clear-filters">پاک کردن</button>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">🔍 جستجو</label>
+            <input type="text" class="input" id="filter-search" placeholder="نام انیمه...">
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">🎭 ژانر</label>
+            <div class="genre-list" id="genre-list"></div>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">📺 وضعیت</label>
+            <select class="filter-select" id="filter-status">
+              <option value="">همه وضعیت‌ها</option>
+              <option value="در حال پخش">در حال پخش</option>
+              <option value="پایان یافته">پایان یافته</option>
+              <option value="به‌زودی">به‌زودی</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">🌍 کشور</label>
+            <select class="filter-select" id="filter-country">
+              <option value="">همه کشورها</option>
+              <option value="ژاپن">ژاپن</option>
+              <option value="کره جنوبی">کره جنوبی</option>
+              <option value="چین">چین</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">⭐ حداقل امتیاز</label>
+            <div class="score-slider">
+              <input type="range" id="filter-score" min="0" max="10" step="0.5" value="0">
+              <span class="score-value" id="score-display">0</span>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%" id="apply-filters">اعمال فیلترها</button>
+        </aside>
+
+        <section>
+          <div class="active-filters" id="active-filters"></div>
+          <div class="results-header">
+            <div>
+              <h2 class="results-title" id="results-title">همه انیمه‌ها</h2>
+              <p class="results-count" id="results-count">در حال بارگذاری...</p>
+            </div>
+            <div class="results-controls">
+              <select class="sort-select" id="sort-select">
+                <option value="newest">جدیدترین</option>
+                <option value="score">بالاترین امتیاز</option>
+                <option value="popular">محبوب‌ترین</option>
+                <option value="alpha">الفبایی</option>
+              </select>
+            </div>
+          </div>
+          <div class="results-grid" id="results-grid">
+            <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--t2)">در حال دریافت انیمه‌ها...</div>
+          </div>
+          <div class="pagination" id="pagination"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">🎬 MIFA</div>
+          <p class="footer__description">مای‌فیوریت‌انیمه یک دانشنامه‌ی فارسی‌زبان برای معرفی، بررسی و امتیازدهی انیمه‌هاست.</p>
+        </div>
+        <div>
+          <h4 class="footer__section-title">لینک‌های مفید</h4>
+          <ul class="footer__links">
+            <li><a href="/" class="footer__link">خانه</a></li>
+            <li><a href="/search.html" class="footer__link">جستجو</a></li>
+            <li><a href="/admin.html" class="footer__link">پنل مدیریت</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__section-title">دسته‌بندی‌ها</h4>
+          <ul class="footer__links">
+            <li><a href="/search.html?status=در حال پخش" class="footer__link">در حال پخش</a></li>
+            <li><a href="/search.html?sort=score" class="footer__link">محبوب‌ترین</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__section-title">جامعه</h4>
+          <ul class="footer__links">
+            <li><a href="https://t.me/my_faourite_anime" class="footer__link" target="_blank">کانال تلگرام</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">© ۱۴۰۵ MIFA — تمامی حقوق محفوظ است</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="auth-modal">
+    <div class="modal__content">
+      <div class="modal__header">
+        <h3 class="modal__title">حساب کاربری</h3>
+        <button class="modal__close">✕</button>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active">ورود</button>
+        <button class="auth-tab">ثبت‌نام</button>
+      </div>
+      <div class="modal__body">
+        <form id="login-form" class="auth-form">
+          <div class="form-group">
+            <label>نام کاربری</label>
+            <input type="text" id="login-username" class="input" required>
+          </div>
+          <div class="form-group">
+            <label>رمز عبور</label>
+            <input type="password" id="login-password" class="input" required>
+          </div>
+          <div class="auth-error" id="login-error"></div>
+          <button type="submit" class="btn btn-primary btn-lg">ورود</button>
+        </form>
+        <form id="register-form" class="auth-form hidden">
+          <div class="form-group">
+            <label>نام کاربری</label>
+            <input type="text" id="register-username" class="input" required>
+          </div>
+          <div class="form-group">
+            <label>رمز عبور — حداقل ۶ کاراکتر</label>
+            <input type="password" id="register-password" class="input" required>
+          </div>
+          <div class="auth-error" id="register-error"></div>
+          <button type="submit" class="btn btn-primary btn-lg">ثبت‌نام</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/shared.js"></script>
+  <script>
+    const GENRES = ['اکشن','ماجراجویی','کمدی','درام','فانتزی','ترسناک','عاشقانه','علمی‌تخیلی','ورزشی','روانشناختی','معمایی','شونن','شوجو','ایسکای','مدرسه‌ای'];
+    const state = { filters: { q:'', genre:'', status:'', country:'', minScore:0, sort:'newest', page:1, limit:24 } };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      AuthManager.init();
+      initFilters();
+      loadFromURL();
+      loadResults();
+      document.getElementById('header-search')?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          const q = e.target.value.trim();
+          if (q) window.location.href = `/search.html?q=${encodeURIComponent(q)}`;
+        }
+      });
+    });
+
+    function initFilters() {
+      const genreList = document.getElementById('genre-list');
+      genreList.innerHTML = GENRES.map(g => `
+        <label class="genre-checkbox">
+          <input type="checkbox" value="${g}">
+          <span>${g}</span>
+        </label>
+      `).join('');
+      genreList.querySelectorAll('input').forEach(cb => {
+        cb.addEventListener('change', (e) => {
+          e.target.closest('.genre-checkbox').classList.toggle('active', e.target.checked);
+        });
+      });
+      const scoreSlider = document.getElementById('filter-score');
+      const scoreDisplay = document.getElementById('score-display');
+      scoreSlider.addEventListener('input', (e) => { scoreDisplay.textContent = e.target.value; });
+      document.getElementById('apply-filters').addEventListener('click', applyFilters);
+      document.getElementById('clear-filters').addEventListener('click', clearFilters);
+      document.getElementById('sort-select').addEventListener('change', (e) => {
+        state.filters.sort = e.target.value;
+        state.filters.page = 1;
+        updateURL();
+        loadResults();
+      });
+      document.getElementById('filter-search').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') applyFilters();
+      });
+    }
+
+    function loadFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('q')) { state.filters.q = params.get('q'); document.getElementById('filter-search').value = params.get('q'); document.getElementById('header-search').value = params.get('q'); }
+      if (params.get('genre')) { state.filters.genre = params.get('genre'); const cb = document.querySelector(`#genre-list input[value="${params.get('genre')}"]`); if (cb) { cb.checked = true; cb.closest('.genre-checkbox').classList.add('active'); } }
+      if (params.get('status')) { state.filters.status = params.get('status'); document.getElementById('filter-status').value = params.get('status'); }
+      if (params.get('country')) { state.filters.country = params.get('country'); document.getElementById('filter-country').value = params.get('country'); }
+      if (params.get('minScore')) { state.filters.minScore = Number(params.get('minScore')); document.getElementById('filter-score').value = state.filters.minScore; document.getElementById('score-display').textContent = state.filters.minScore; }
+      if (params.get('sort')) { state.filters.sort = params.get('sort'); document.getElementById('sort-select').value = params.get('sort'); }
+      if (params.get('page')) { state.filters.page = Number(params.get('page')); }
+    }
+
+    function applyFilters() {
+      state.filters.q = document.getElementById('filter-search').value.trim();
+      state.filters.status = document.getElementById('filter-status').value;
+      state.filters.country = document.getElementById('filter-country').value;
+      state.filters.minScore = Number(document.getElementById('filter-score').value);
+      const selectedGenres = [];
+      document.querySelectorAll('#genre-list input:checked').forEach(cb => selectedGenres.push(cb.value));
+      state.filters.genre = selectedGenres.join(',');
+      state.filters.page = 1;
+      updateURL();
+      loadResults();
+    }
+
+    function clearFilters() {
+      state.filters = { q:'', genre:'', status:'', country:'', minScore:0, sort:'newest', page:1, limit:24 };
+      document.getElementById('filter-search').value = '';
+      document.getElementById('filter-status').value = '';
+      document.getElementById('filter-country').value = '';
+      document.getElementById('filter-score').value = 0;
+      document.getElementById('score-display').textContent = '0';
+      document.getElementById('sort-select').value = 'newest';
+      document.querySelectorAll('#genre-list input').forEach(cb => { cb.checked = false; cb.closest('.genre-checkbox').classList.remove('active'); });
+      updateURL();
+      loadResults();
+    }
+
+    function updateURL() {
+      const params = new URLSearchParams();
+      Object.entries(state.filters).forEach(([key, val]) => {
+        if (val !== '' && val !== 0 && val !== 'newest' && key !== 'limit') params.set(key, val);
+      });
+      const qs = params.toString();
+      const newUrl = qs ? `/search.html?${qs}` : '/search.html';
+      history.pushState(null, '', newUrl);
+    }
+
+    async function loadResults() {
+      const grid = document.getElementById('results-grid');
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--t2)">در حال بارگذاری...</div>';
+      try {
+        const result = await api.getAnime(state.filters);
+        renderResults(result.data);
+        renderPagination(result.pagination);
+        updateResultsInfo(result.pagination);
+        renderActiveFilters();
+      } catch (error) {
+        console.error(error);
+        grid.innerHTML = `<div class="empty-state"><div class="empty-state__icon">⚠️</div><h3 class="empty-state__title">خطا در بارگذاری</h3><p>${error.message}</p></div>`;
+      }
+    }
+
+    function renderResults(animeList) {
+      const grid = document.getElementById('results-grid');
+      if (!animeList || animeList.length === 0) {
+        grid.innerHTML = `<div class="empty-state"><div class="empty-state__icon">🔍</div><h3 class="empty-state__title">نتیجه‌ای پیدا نشد</h3><p>فیلترهای خود را تغییر دهید.</p><button class="btn btn-primary" style="margin-top:1rem" onclick="clearFilters()">پاک کردن فیلترها</button></div>`;
+        return;
+      }
+      grid.innerHTML = animeList.map(a => Components.animeCard(a)).join('');
+    }
+
+    function renderPagination(pagination) {
+      const container = document.getElementById('pagination');
+      if (!pagination || pagination.totalPages <= 1) { container.innerHTML = ''; return; }
+      const { page, totalPages } = pagination;
+      let html = '';
+      html += `<button class="pagination-btn" ${page === 1 ? 'disabled' : ''} onclick="goToPage(${page - 1})">‹ قبلی</button>`;
+      const start = Math.max(1, page - 2);
+      const end = Math.min(totalPages, page + 2);
+      if (start > 1) { html += `<button class="pagination-btn" onclick="goToPage(1)">1</button>`; if (start > 2) html += `<span style="color:var(--t3);padding:0 .5rem">...</span>`; }
+      for (let i = start; i <= end; i++) html += `<button class="pagination-btn ${i === page ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+      if (end < totalPages) { if (end < totalPages - 1) html += `<span style="color:var(--t3);padding:0 .5rem">...</span>`; html += `<button class="pagination-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`; }
+      html += `<button class="pagination-btn" ${page === totalPages ? 'disabled' : ''} onclick="goToPage(${page + 1})">بعدی ›</button>`;
+      container.innerHTML = html;
+    }
+
+    function goToPage(page) {
+      state.filters.page = page;
+      updateURL();
+      loadResults();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateResultsInfo(pagination) {
+      const title = document.getElementById('results-title');
+      const count = document.getElementById('results-count');
+      if (state.filters.q) title.textContent = `نتایج جستجو برای "${state.filters.q}"`;
+      else if (state.filters.genre) title.textContent = `انیمه‌های ژانر ${state.filters.genre}`;
+      else if (state.filters.status) title.textContent = `انیمه‌های ${state.filters.status}`;
+      else title.textContent = 'همه انیمه‌ها';
+      if (pagination) count.textContent = `${pagination.total.toLocaleString('fa-IR')} انیمه پیدا شد — صفحه ${pagination.page.toLocaleString('fa-IR')} از ${pagination.totalPages.toLocaleString('fa-IR')}`;
+    }
+
+    function renderActiveFilters() {
+      const container = document.getElementById('active-filters');
+      const tags = [];
+      if (state.filters.q) tags.push({ label: `جستجو: ${state.filters.q}`, key: 'q' });
+      if (state.filters.genre) tags.push({ label: `ژانر: ${state.filters.genre}`, key: 'genre' });
+      if (state.filters.status) tags.push({ label: `وضعیت: ${state.filters.status}`, key: 'status' });
+      if (state.filters.country) tags.push({ label: `کشور: ${state.filters.country}`, key: 'country' });
+      if (state.filters.minScore > 0) tags.push({ label: `امتیاز ≥ ${state.filters.minScore}`, key: 'minScore' });
+      container.innerHTML = tags.map(t => `<span class="active-filter-tag">${t.label}<button onclick="removeFilter('${t.key}')">×</button></span>`).join('');
+    }
+
+    function removeFilter(key) {
+      state.filters[key] = key === 'minScore' ? 0 : '';
+      if (key === 'q') document.getElementById('filter-search').value = '';
+      if (key === 'status') document.getElementById('filter-status').value = '';
+      if (key === 'country') document.getElementById('filter-country').value = '';
+      if (key === 'genre') document.querySelectorAll('#genre-list input').forEach(cb => { cb.checked = false; cb.closest('.genre-checkbox').classList.remove('active'); });
+      if (key === 'minScore') { document.getElementById('filter-score').value = 0; document.getElementById('score-display').textContent = '0'; }
+      state.filters.page = 1;
+      updateURL();
+      loadResults();
+    }
+  </script>
+</body>
+</html>
